@@ -1,12 +1,10 @@
-const Router = require('express')
-const userController = require('../controller/userController');
-const authController = require('../controller/authController')
-
+import { Router } from 'express';
+import { checkJwtToken } from '../controller/authController.js';
+import { postUser, getUsers } from '../controller/userController.js';
 
 const userRouter = Router();
-userRouter.post('/register', authController.checkJwtToken, userController.postUser);
-userRouter.get('/', authController.checkJwtToken, userController.getUsers);
+userRouter.post('/register', checkJwtToken, postUser);
+userRouter.get('/', checkJwtToken, getUsers);
 
-
-module.exports = userRouter;
+export default userRouter
 
