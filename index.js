@@ -1,8 +1,10 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const router = require('./router/index')
-const bodyParser = require('body-parser')
-require('dotenv/config');
+import mongoose from "mongoose"
+import router from './router/index.js'
+import bodyParser from 'body-parser';
+import dotenv from "dotenv"
+import express from "express";
+
+dotenv.config()
 
 const app = express();
 app.use(bodyParser.json());

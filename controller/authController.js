@@ -1,12 +1,10 @@
-const express = require('express');
-const { res, req, next } = express;
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const User = require('../model/user')
-const RefreshToken = require('../model/refreshToken')
-const userErrors = require('./userController');
-const { generateAccessToken } = require('../services/authService');
-require('dotenv/config');
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import User from '../model/user.js';
+import RefreshToken from '../model/refreshToken.js';
+import { userErrors } from './userController.js';
+import { generateAccessToken } from '../services/authService.js';
+import 'dotenv/config';
 
 const authErrors = {
   UNAUTHORIZED: "Unauthorized",
@@ -14,7 +12,7 @@ const authErrors = {
   INVALID_PASSWORD: "Invalid password"
 }
 
-async function passwordLogin ( req, res, next ){
+export async function passwordLogin ( req, res, next ){
   try {
     const { username, password } = req.body;
     const checkUserExist = await User.findOne({
@@ -43,7 +41,7 @@ async function passwordLogin ( req, res, next ){
   }
 }
 
-async function checkJwtToken (req, res, next) {
+export async function checkJwtToken (req, res, next) {
     const authHeader = req.header('Authorization');
     if (!authHeader.startsWith('Bearer ')) {
       return res.status(401).send(authErrors.UNAUTHORIZED);
@@ -64,7 +62,7 @@ async function checkJwtToken (req, res, next) {
     });
 }
 
-async function token (req, res, next) {
+export async function token (req, res, next) {
   const refreshToken = req.body.token;
   if(refreshToken == null) { return res.status(401).send(authErrors.INVALID_TOKEN) };
 
@@ -84,20 +82,11 @@ async function token (req, res, next) {
   })
 }
 
-async function logout (req, res, next) {
+export async function logout (req, res, next) {
 
   const token = req.body.token;
   await RefreshToken.deleteOne({ token: token });
   
 
   return res.status(204);
-
-}
-
-
-module.exports = {
-  passwordLogin,
-  checkJwtToken,
-  token,
-  logout
 }

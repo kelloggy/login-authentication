@@ -1,14 +1,12 @@
-const express = require('express')
-const { res, req, next } = express;
-const bcrypt = require('bcrypt');
-const User = require('../model/user')
+import bcrypt from 'bcrypt'
+import User from '../model/user.js';
 
-const userErrors = {
+export const userErrors = {
     USER_ALREADY_EXIST:'Username already existed.',
     USER_NOT_FOUND: 'User not found'
 }
 
-async function postUser ( req, res, next ){
+export async function postUser ( req, res, next ){
   try {
     const userInfo = req.body;
     const checkUsernameExist = await User.findOne({
@@ -32,7 +30,7 @@ async function postUser ( req, res, next ){
   }
 }
 
-async function getUsers ( req, res, next ){
+export async function getUsers ( req, res, next ){
   try {
     const users = await User.find();
     return res.status(200).json(users);
@@ -41,12 +39,5 @@ async function getUsers ( req, res, next ){
     next(error);
   }
 }
-
-module.exports = {
-  postUser,
-  getUsers,
-  userErrors
-};
-
 
 

@@ -1,11 +1,10 @@
-const Router = require('express')
-const authController = require('../controller/authController.js')
+import { Router } from 'express';
+import { passwordLogin, checkJwtToken, token, logout } from '../controller/authController.js';
 
 const authRouter = Router();
-authRouter.post('/', authController.passwordLogin);
-authRouter.post('/token', authController.token);
-authRouter.delete('/logout', authController.logout)
+authRouter.post('/', passwordLogin);
+authRouter.post('/token', token);
+authRouter.delete('/logout', logout)
 
-
-module.exports = authRouter;
+export default authRouter;
 
